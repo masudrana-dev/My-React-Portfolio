@@ -10,6 +10,7 @@ import Login from './Component/Login/Login';
 import Registration from './Component/Registration/Registration';
 import SocialLogin from './Component/Login/SocialLogin/SocialLogin';
 import RequiredAuth from './Component/RquiredAuth/RequiredAuth';
+import Gallery from './Component/Gallery/Gallery';
 
 function App() {
   return (
@@ -33,6 +34,11 @@ function App() {
         <Route path='/login' element={<Login></Login>}></Route>
         <Route path='/register' element={<Registration></Registration>}></Route>
         <Route path='/socialLogin ' element={<SocialLogin></SocialLogin>}></Route>
+        <Route path='/gallery' element={
+          <RequiredAuth>
+            <Gallery></Gallery>
+          </RequiredAuth>
+        }></Route>
         <Route path='*' element={<NotFound></NotFound>}></Route>
       </Routes>
     </div>

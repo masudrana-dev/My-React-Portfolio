@@ -1,15 +1,15 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom'
+import auth from '../firebase_ini';
 import "./Header.css"
-// import auth from '../../firebase-init'
-// import { useAuthState, useSignOut } from 'react-firebase-hooks/auth';
 
 const Header = () => {
-    // const [user] = useAuthState(auth)
-    // const [signOut, loading, error] = useSignOut(auth);
-    // const handleSignOut = () => {
-    //     signOut(auth)
-    // }
+    const [user] = useAuthState(auth)
+    const handleSingout = () => {
+        signOut(auth);
+    }
     return (
         <nav className='py-10 px-20'>
             <div className='flex text-center md:justify-between'>
@@ -23,15 +23,16 @@ const Header = () => {
                     <Link to='/about'>About</Link>
                     <Link to='/skill'>Skill</Link>
                     <Link to='/contact'>Contact</Link>
+                    <Link to='/gallery'> Gallery</Link>
                 </div>
                 <div className="sub-btn text-white bg-orange-500 hidden md:block">
-                    {/* {
+                    {
                         user ?
-                            <h1 className='font-bold' onclick={handleSignOut}>Sign Out</h1>
+                            <button className='font-bold' onClick={handleSingout}>Sign Out</button>
                             :
                             <h1 className='font-bold'><Link to='/login'>Login</Link></h1>
-                    } */}
-                    <h1 className='font-bold'><Link to='/login'>Login</Link></h1>
+                    }
+
                 </div>
             </div>
         </nav>

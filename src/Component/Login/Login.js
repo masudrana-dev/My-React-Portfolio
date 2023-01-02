@@ -7,6 +7,7 @@ import './Login.css'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../firebase_ini';
 import { useRef } from 'react';
+import Loading from '../Loading/Loading';
 
 const Login = () => {
     const emailRef = useRef(" ");
@@ -15,6 +16,7 @@ const Login = () => {
     const location = useLocation();
 
     let from = location.state?.from?.pathname || '/home';
+    let errorElement;
 
     const [
         signInWithEmailAndPassword,
@@ -26,7 +28,14 @@ const Login = () => {
     const navigateRegister = event => {
         navigate('/registor')
     }
-
+    if (loading) {
+        return <Loading></Loading>
+    }
+    if (error) {
+        errorElement = <div>
+            <p className='text-white'>error:{error?.message}</p>
+        </div>
+    }
     if (user) {
         navigate(from, { replace: true });
     }
@@ -46,16 +55,18 @@ const Login = () => {
                 <h1 className='text-center text-xl font-bold mb-3'>Please Login</h1>
                 <Form className=' mx-auto' onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Control type="email" placeholder="Enter email" required />
+                        <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Control type="password" placeholder="Password" required />
+                        <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                     </Form.Group>
+                    {errorElement}
                     <Button type="submit" className='btn btn-primary'>
                         Submit
                     </Button>
                     <SocialLogin></SocialLogin>
                 </Form>
+
                 <p className=''>New to Genius Car ? <Link to='/register' className='text-danger pe-auto text-decoration-none' onClick={navigateRegister}>Please Register</Link></p>
             </div>
         </Fade>
